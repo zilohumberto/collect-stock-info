@@ -1,0 +1,4 @@
+from collect_strategies.base_strategy import BaseStrategy
+from collect_strategies.count import CountStrategy
+from collect_strategies.average import AverageStrategy
+from collect_strategies.factory import FactoryStrategy

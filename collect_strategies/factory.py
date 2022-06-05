@@ -1,12 +1,14 @@
 from typing import Optional
 from collect_strategies.sum import SumStrategy
 from collect_strategies.average import AverageStrategy
+from collect_strategies.standar_deviation import StandardDeviationStrategy
 
 
 class FactoryStrategy:
     strategies = {
         "average": AverageStrategy(),
         "sum": SumStrategy(),
+        "std": StandardDeviationStrategy(),
     }
 
     @classmethod

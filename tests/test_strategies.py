@@ -3,6 +3,7 @@ from collect_strategies import (
     FactoryStrategy,
     SumStrategy,
     AverageStrategy,
+    StandardDeviationStrategy,
 )
 
 
@@ -62,6 +63,39 @@ class TestStrategies(unittest.TestCase):
                 ]
             ),
             {"deductible": 1066, "stop_loss": 11000, "oop_max": 6000}
+        )
+
+    def test_std(self):
+        self.assertEqual(StandardDeviationStrategy().process([]), {})
+        self.assertEqual(
+            StandardDeviationStrategy().process(
+                [
+                    {"stop_loss": 300},
+                    {"stop_loss": 100},
+                    {"stop_loss": 200}
+                ]
+            ),
+            {"stop_loss": 81.6497}
+        )
+        self.assertEqual(
+            StandardDeviationStrategy().process(
+                [
+                    {"deductible": 1000, "stop_loss": 10000, "oop_max": 5000},
+                    {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000},
+                    {"deductible": 1000, "stop_loss": 10000, "oop_max": 6000},
+                ]
+            ),
+            {"deductible": 94.2833, "stop_loss": 1414.2136, "oop_max": 471.405}
+        )
+        self.assertEqual(
+            StandardDeviationStrategy().process(
+                [
+                    {"deductible": 1000, "stop_loss": 10000, },
+                    {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000},
+                    {"deductible": 1000, "stop_loss": 10000, "oop_max": 6000},
+                ]
+            ),
+            {"deductible": 94.2833, "stop_loss": 1414.2136, "oop_max": 0.0}
         )
 
     def test_factory(self):

@@ -53,6 +53,16 @@ class TestStrategies(unittest.TestCase):
             ),
             {"deductible": 1066, "stop_loss": 11000, "oop_max": 5666}
         )
+        self.assertEqual(
+            AverageStrategy().process(
+                [
+                    {"deductible": 1000, "stop_loss": 10000, },
+                    {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000},
+                    {"deductible": 1000, "stop_loss": 10000, "oop_max": 6000},
+                ]
+            ),
+            {"deductible": 1066, "stop_loss": 11000, "oop_max": 6000}
+        )
 
     def test_factory(self):
         with self.assertRaises(NotImplementedError) as context:

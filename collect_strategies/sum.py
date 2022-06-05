@@ -2,7 +2,7 @@ from typing import Any, Sequence, MutableMapping
 from collect_strategies.base_strategy import BaseStrategy
 
 
-class CountStrategy(BaseStrategy):
+class SumStrategy(BaseStrategy):
 
     def process(self, api_results: Sequence[MutableMapping[str, Any]]) -> MutableMapping[str, Any]:
         cnt_dict = {}

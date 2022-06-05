@@ -3,14 +3,10 @@ from fastapi import FastAPI, status, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
-
-from collect_service import CollectService
+from random import randrange
 
 app = FastAPI()
 log = logging.getLogger(__name__)
-
-
-collect_service = CollectService()
 
 
 app.add_middleware(
@@ -24,6 +20,12 @@ app.add_middleware(
     TrustedHostMiddleware, allowed_hosts=["*", ]
 )
 
+members_values = {
+    str(i): {
+        "deductible": randrange(0, 9999), "stop_loss": randrange(0, 9999), "oop_max": randrange(0, 9999)
+    } for i in range(10)
+}
+
 
 @app.exception_handler(Exception)
 async def un_handle_exception(request: Request, exception: Exception):
@@ -34,8 +36,7 @@ async def un_handle_exception(request: Request, exception: Exception):
 
 
 @app.get("/")
-async def collect(member_id: str, strategy: str = None):
-    return await collect_service.collect(
-        member_id=member_id,
-        strategy=strategy,
-    )
+async def collect(member_id: str):
+    if member_id in members_values:
+        return members_values[member_id]
+    raise ValueError("Member does not exists on testing DB!")

@@ -8,10 +8,13 @@ class GatewayRequestBase:
         self.url = url
 
     async def do_get(self, params):
-        # TODO TIMEOUT RETRIES AND ASYNC
+        """
+            perform the request raise error if status code is not 200
+        """
         response = get(
             url=self.url,
             params=params,
+            timeout=5,
         )
 
         if response.status_code == 200:

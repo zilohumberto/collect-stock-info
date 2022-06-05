@@ -1,12 +1,12 @@
 from typing import Optional
-from collect_strategies.count import CountStrategy
+from collect_strategies.sum import SumStrategy
 from collect_strategies.average import AverageStrategy
 
 
 class FactoryStrategy:
     strategies = {
-        "average": AverageStrategy,
-        "count": CountStrategy,
+        "average": AverageStrategy(),
+        "sum": SumStrategy(),
     }
 
     @classmethod

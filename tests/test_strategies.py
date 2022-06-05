@@ -1,7 +1,7 @@
 import unittest
 from collect_strategies import (
     FactoryStrategy,
-    CountStrategy,
+    SumStrategy,
     AverageStrategy,
 )
 
@@ -9,9 +9,9 @@ from collect_strategies import (
 class TestStrategies(unittest.TestCase):
 
     def test_count(self):
-        self.assertEqual(CountStrategy().process([]), {})
+        self.assertEqual(SumStrategy().process([]), {})
         self.assertEqual(
-            CountStrategy().process(
+            SumStrategy().process(
                 [
                     {"stop_loss": 300},
                     {"stop_loss": 100},
@@ -21,7 +21,7 @@ class TestStrategies(unittest.TestCase):
             {"stop_loss": 600}
         )
         self.assertEqual(
-            CountStrategy().process(
+            SumStrategy().process(
                 [
                     {"deductible": 1000, "stop_loss": 10000, "oop_max": 5000},
                     {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000},
@@ -58,7 +58,7 @@ class TestStrategies(unittest.TestCase):
         with self.assertRaises(NotImplementedError) as context:
             FactoryStrategy.choose_strategy("multiply")
 
-        self.assertEqual(FactoryStrategy.choose_strategy(strategy="count"), CountStrategy)
-        self.assertEqual(FactoryStrategy.choose_strategy(strategy="average"), AverageStrategy)
-        self.assertEqual(FactoryStrategy.choose_strategy(), AverageStrategy)
-        self.assertEqual(FactoryStrategy.choose_strategy(None), AverageStrategy)
+        self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="sum"), SumStrategy))
+        self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="average"), AverageStrategy))
+        self.assertTrue(isinstance(FactoryStrategy.choose_strategy(), AverageStrategy))
+        self.assertTrue(isinstance(FactoryStrategy.choose_strategy(None), AverageStrategy))

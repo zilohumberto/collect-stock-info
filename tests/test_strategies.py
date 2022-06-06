@@ -104,5 +104,6 @@ class TestStrategies(unittest.TestCase):
 
         self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="sum"), SumStrategy))
         self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="average"), AverageStrategy))
+        self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="std"), StandardDeviationStrategy))
         self.assertTrue(isinstance(FactoryStrategy.choose_strategy(), AverageStrategy))
         self.assertTrue(isinstance(FactoryStrategy.choose_strategy(None), AverageStrategy))

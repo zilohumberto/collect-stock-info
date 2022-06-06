@@ -4,6 +4,8 @@ from collect_strategies import (
     SumStrategy,
     AverageStrategy,
     StandardDeviationStrategy,
+    MinStrategy,
+    MaxStrategy,
 )
 
 
@@ -98,6 +100,72 @@ class TestStrategies(unittest.TestCase):
             {"deductible": 94.2833, "stop_loss": 1414.2136, "oop_max": 0.0}
         )
 
+    def test_max(self):
+        self.assertEqual(MaxStrategy().process([]), {})
+        self.assertEqual(
+            MaxStrategy().process(
+                [
+                    {"stop_loss": 300},
+                    {"stop_loss": 100},
+                    {"stop_loss": 200}
+                ]
+            ),
+            {"stop_loss": 300}
+        )
+        self.assertEqual(
+            MaxStrategy().process(
+                [
+                    {"deductible": 1000, "stop_loss": 10000, "oop_max": 5000},
+                    {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000},
+                    {"deductible": 1000, "stop_loss": 10000, "oop_max": 6000},
+                ]
+            ),
+            {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000}
+        )
+        self.assertEqual(
+            MaxStrategy().process(
+                [
+                    {"deductible": 1000, "stop_loss": 10000, },
+                    {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000},
+                    {"deductible": 1000, "stop_loss": 10000, "oop_max": 6000},
+                ]
+            ),
+            {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000}
+        )
+
+    def test_min(self):
+        self.assertEqual(MinStrategy().process([]), {})
+        self.assertEqual(
+            MinStrategy().process(
+                [
+                    {"stop_loss": 300},
+                    {"stop_loss": 100},
+                    {"stop_loss": 200}
+                ]
+            ),
+            {"stop_loss": 100}
+        )
+        self.assertEqual(
+            MinStrategy().process(
+                [
+                    {"deductible": 1000, "stop_loss": 10000, "oop_max": 5000},
+                    {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000},
+                    {"deductible": 1000, "stop_loss": 9000, "oop_max": 6000},
+                ]
+            ),
+            {"deductible": 1000, "stop_loss": 9000, "oop_max": 5000}
+        )
+        self.assertEqual(
+            MinStrategy().process(
+                [
+                    {"deductible": 1000, "stop_loss": 10000, },
+                    {"deductible": 1200, "stop_loss": 13000, "oop_max": 6000},
+                    {"deductible": 1000, "stop_loss": 10000, "oop_max": 6000},
+                ]
+            ),
+            {"deductible": 1000, "stop_loss": 10000, "oop_max": 6000}
+        )
+
     def test_factory(self):
         with self.assertRaises(NotImplementedError) as context:
             FactoryStrategy.choose_strategy("multiply")
@@ -105,5 +173,7 @@ class TestStrategies(unittest.TestCase):
         self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="sum"), SumStrategy))
         self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="average"), AverageStrategy))
         self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="std"), StandardDeviationStrategy))
+        self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="max"), MaxStrategy))
+        self.assertTrue(isinstance(FactoryStrategy.choose_strategy(strategy="min"), MinStrategy))
         self.assertTrue(isinstance(FactoryStrategy.choose_strategy(), AverageStrategy))
         self.assertTrue(isinstance(FactoryStrategy.choose_strategy(None), AverageStrategy))

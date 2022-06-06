@@ -2,7 +2,6 @@ from gateways.request_base import GatewayRequestBase
 
 
 class CollectDataRequest(GatewayRequestBase):
-
     def __init__(self, url: str):
         super(CollectDataRequest, self).__init__(url=url)
 

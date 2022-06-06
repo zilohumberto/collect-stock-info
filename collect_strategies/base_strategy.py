@@ -2,13 +2,14 @@ from typing import Any, MutableMapping, Sequence, Tuple
 
 
 class BaseStrategy:
-
-    def process(self, api_results: MutableMapping[str, Any]) -> MutableMapping[str, Any]:
+    def process(
+        self, api_results: MutableMapping[str, Any]
+    ) -> MutableMapping[str, Any]:
         raise NotImplementedError()
-    
-    def get_sum(self, results: Sequence[MutableMapping[str, Any]]) -> Tuple[
-        MutableMapping[str, Any], MutableMapping[str, Any]
-    ]:
+
+    def get_sum(
+        self, results: Sequence[MutableMapping[str, Any]]
+    ) -> Tuple[MutableMapping[str, Any], MutableMapping[str, Any]]:
         sum_dict = {}
         cnt_dict = {}
         for api_result in results:
@@ -23,8 +24,6 @@ class BaseStrategy:
         return sum_dict, cnt_dict
 
     def get_avg(
-            self,
-            cnt_dict: MutableMapping[str, Any],
-            results: MutableMapping[str, Any]
+        self, cnt_dict: MutableMapping[str, Any], results: MutableMapping[str, Any]
     ) -> MutableMapping[str, Any]:
         return {key: int(value / cnt_dict[key]) for key, value in results.items()}

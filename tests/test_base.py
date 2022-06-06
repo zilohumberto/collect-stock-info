@@ -3,7 +3,6 @@ import asyncio
 
 
 class TestBase(unittest.TestCase):
-
     def synchronize_async_helper(self, to_await):
         async_response = []
 

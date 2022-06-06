@@ -4,8 +4,9 @@ from collect_strategies.base_strategy import BaseStrategy
 
 
 class StandardDeviationStrategy(BaseStrategy):
-
-    def process(self, api_results: Sequence[MutableMapping[str, Any]]) -> MutableMapping[str, Any]:
+    def process(
+        self, api_results: Sequence[MutableMapping[str, Any]]
+    ) -> MutableMapping[str, Any]:
         sum_dict, cnt_dict = self.get_sum(api_results)
         avg_dict = self.get_avg(cnt_dict=cnt_dict, results=sum_dict)
         std_dict = {}

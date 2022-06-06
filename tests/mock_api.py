@@ -16,14 +16,15 @@ app.add_middleware(
     allow_headers=["*"],
     allow_credentials=True,
 )
-app.add_middleware(
-    TrustedHostMiddleware, allowed_hosts=["*", ]
-)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*",])
 
 members_values = {
     str(i): {
-        "deductible": randrange(0, 9999), "stop_loss": randrange(0, 9999), "oop_max": randrange(0, 9999)
-    } for i in range(10)
+        "deductible": randrange(0, 9999),
+        "stop_loss": randrange(0, 9999),
+        "oop_max": randrange(0, 9999),
+    }
+    for i in range(10)
 }
 
 
@@ -31,7 +32,7 @@ members_values = {
 async def un_handle_exception(request: Request, exception: Exception):
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={"message": f"Server unavailable"}
+        content={"message": f"Server unavailable"},
     )
 
 

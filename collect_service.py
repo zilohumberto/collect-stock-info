@@ -24,7 +24,9 @@ class CollectService:
 
         return responses
 
-    async def collect(self, member_id: str, strategy: str = None) -> MutableMapping[str, Any]:
+    async def collect(
+        self, member_id: str, strategy: str = None
+    ) -> MutableMapping[str, Any]:
         """
             collect info from member id from different apis
             choose the strategy and run it to process the information given!

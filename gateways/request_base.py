@@ -11,11 +11,7 @@ class GatewayRequestBase:
         """
             perform the request raise error if status code is not 200
         """
-        response = get(
-            url=self.url,
-            params=params,
-            timeout=5,
-        )
+        response = get(url=self.url, params=params, timeout=5,)
 
         if response.status_code == 200:
             return response.json()

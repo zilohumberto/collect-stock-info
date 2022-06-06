@@ -3,8 +3,9 @@ from collect_strategies.base_strategy import BaseStrategy
 
 
 class MinStrategy(BaseStrategy):
-
-    def process(self, api_results: Sequence[MutableMapping[str, Any]]) -> MutableMapping[str, Any]:
+    def process(
+        self, api_results: Sequence[MutableMapping[str, Any]]
+    ) -> MutableMapping[str, Any]:
         min_dict = {}
         for api_result in api_results:
             for key, value in api_result.items():
